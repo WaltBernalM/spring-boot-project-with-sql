@@ -8,7 +8,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -26,19 +25,23 @@ public class EmployeeControllerTests {
 
   @BeforeEach
   void setup() {
-    employeeController = Mockito.mock(EmployeeController.class);
     employeeService = Mockito.mock(EmployeeService.class);
+    employeeController = new EmployeeController(employeeService);
     mockMvc = MockMvcBuilders.standaloneSetup(employeeController).build();
   }
 
   @Test
   public void testSaveEmployee() throws Exception {
     Employee employee = new Employee();
+    employee.setId(1L);
+    employee.setFirstName("John");
+    employee.setLastName("Doe");
+    employee.setEmail("jdoe@example.com");
     when(employeeService.saveEmployee(employee)).thenReturn(employee);
 
     mockMvc.perform(MockMvcRequestBuilders.post("/api/employees")
         .contentType(MediaType.APPLICATION_JSON)
-        .content("{\"firstName\": \"John\", \"lastName\": \"Doe\", \"email\": \"jdoe@example.com\"}"))
+        .content("{\"id\":1,\"firstName\":\"John\",\"lastName\":\"Doe\",\"email\":\"jdoe@example.com\"}"))
         .andExpect(status().isCreated())
         .andExpect(jsonPath("$.id").value(1))
         .andExpect(jsonPath("$.firstName").value("John"))
@@ -55,5 +58,21 @@ public class EmployeeControllerTests {
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isArray())
         .andExpect(jsonPath("$.length()").value(2));
+  }
+
+  @Test
+  public void testGetEmployeeById() throws Exception {
+    Employee employee = new Employee();
+    employee.setId(1L);
+    employee.setFirstName("John");
+    employee.setLastName("Doe");
+    employee.setEmail("jdoe@gmail.com");
+
+    when(employeeService.getEmployeeById(1L)).thenReturn(employee);
+
+    mockMvc.perform(MockMvcRequestBuilders.get("/api/employees/1"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.id").value(1))
+        .andExpect(jsonPath("$.firstName").value("John"));
   }
 }
