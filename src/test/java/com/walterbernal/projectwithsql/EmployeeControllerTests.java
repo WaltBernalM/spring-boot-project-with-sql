@@ -15,6 +15,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -73,6 +76,42 @@ public class EmployeeControllerTests {
     mockMvc.perform(MockMvcRequestBuilders.get("/api/employees/1"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.id").value(1))
-        .andExpect(jsonPath("$.firstName").value("John"));
+        .andExpect(jsonPath("$.firstName").value("John"))
+        .andExpect(jsonPath("$.lastName").value("Doe"))
+        .andExpect(jsonPath("$.email").value("jdoe@gmail.com"));
+  }
+
+  @Test
+  public void testUpdateEmployee() throws Exception {
+    Employee employee = new Employee();
+    employee.setId(1L);
+    employee.setFirstName("John");
+    employee.setLastName("Doe");
+    employee.setEmail("jdoe@gmail.com");
+
+    when(employeeService.updatEmployee(employee, 1)).thenReturn(employee);
+
+    mockMvc.perform(MockMvcRequestBuilders.put("/api/employees/1")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content("{\"id\":1,\"firstName\":\"John\",\"lastName\":\"Doe\",\"email\":\"jdoe@gmail.com\"}"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.id").value(1))
+        .andExpect(jsonPath("$.firstName").value("John"))
+        .andExpect(jsonPath("$.lastName").value("Doe"))
+        .andExpect(jsonPath("$.email").value("jdoe@gmail.com"));
+  }
+
+  @Test
+  public void testDeleteEmployee() throws Exception {
+    Long employeeId = 1L;
+
+    doNothing().when(employeeService).deleteEmployee(employeeId);
+
+    mockMvc.perform(MockMvcRequestBuilders
+        .delete("/api/employees/{id}", employeeId)
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk());
+
+    verify(employeeService, times(1)).deleteEmployee(employeeId);
   }
 }
