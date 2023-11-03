@@ -92,9 +92,41 @@ public class EmployeeServiceTests {
 
     when(employeeRepository.findById(employeeId)).thenReturn(Optional.empty());
 
-    assertThrows(ResourceNotFoundException.class, () ->employeeService.getEmployeeById(employeeId));
+    assertThrows(ResourceNotFoundException.class, () -> employeeService.getEmployeeById(employeeId));
 
   }
+  
+    @Test
+  public void testUpdateEmployee() {
+    long employeeId = 1; // Id of the employee
 
+    // Current employee 
+    Employee currentEmployee = new Employee();
+    currentEmployee.setFirstName("current");
+
+    // Update employee
+    Employee updatedEmployee = new Employee();
+    updatedEmployee.setFirstName("updated");
+
+    // Put method is divided into two parts, find and save
+    // Return of Optional currentEmployee when the findById method of employeeRepository is called
+    when(employeeRepository.findById(employeeId)).thenReturn(Optional.of(currentEmployee));
+
+    // Return of Optional currentEmployee when the save method of the employeeRepository is called
+    when(employeeRepository.save(currentEmployee)).thenReturn(currentEmployee);
+
+    Employee result = employeeService.updatEmployee(updatedEmployee, employeeId);
+
+    // assertion that the result is not null
+    assertNotNull(result);
+
+    // assertion that the update method of the employeeRepository is actully updating
+    assertEquals(updatedEmployee.getfirstName(), result.getfirstName());
+
+    // verification that the save method of the employeeRepository is called 1 time
+    verify(employeeRepository, times(1)).save(currentEmployee);
+  }
+  
+  
 
 }
