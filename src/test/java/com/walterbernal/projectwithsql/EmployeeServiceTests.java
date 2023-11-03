@@ -2,6 +2,8 @@ package com.walterbernal.projectwithsql;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -14,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import com.walterbernal.projectwithsql.exceptions.ResourceNotFoundException;
 import com.walterbernal.projectwithsql.models.Employee;
 import com.walterbernal.projectwithsql.repository.EmployeeRepository;
 import com.walterbernal.projectwithsql.services.EmployeeService;
@@ -73,7 +76,6 @@ public class EmployeeServiceTests {
 
   @Test
   public void testGetEmployeeById() {
-    
     Employee employee = new Employee();
     long employeeId = 1;
 
@@ -83,4 +85,16 @@ public class EmployeeServiceTests {
     assertNotNull(employeeFound);
     assertEquals(employee, employeeFound);
   }
+
+  @Test
+  public void testGetEmployeeByIdNotFound() {
+    long employeeId = 1;
+
+    when(employeeRepository.findById(employeeId)).thenReturn(Optional.empty());
+
+    assertThrows(ResourceNotFoundException.class, () ->employeeService.getEmployeeById(employeeId));
+
+  }
+
+
 }
