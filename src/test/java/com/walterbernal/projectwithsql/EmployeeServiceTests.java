@@ -127,6 +127,15 @@ public class EmployeeServiceTests {
     verify(employeeRepository, times(1)).save(currentEmployee);
   }
   
-  
+  @Test
+  public void testUpdateEmployeeNotFound() {
+    long employeeId = 2;
+    Employee updatedEmployee = new Employee();
 
+    when(employeeRepository.findById(employeeId)).thenReturn(Optional.empty());
+
+    assertThrows(ResourceNotFoundException.class, () -> employeeService.updatEmployee(updatedEmployee, employeeId));
+  }
+
+  
 }
