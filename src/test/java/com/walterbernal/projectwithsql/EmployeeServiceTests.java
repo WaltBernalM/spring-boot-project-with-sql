@@ -137,5 +137,21 @@ public class EmployeeServiceTests {
     assertThrows(ResourceNotFoundException.class, () -> employeeService.updatEmployee(updatedEmployee, employeeId));
   }
 
-  
+  @Test
+  public void testDeleteEmployee() {
+    long employeeId = 1;
+    Employee employee = new Employee();
+    when(employeeRepository.findById(employeeId)).thenReturn(Optional.of(employee));
+    employeeService.deleteEmployee(employeeId);
+    verify(employeeRepository, times(1)).deleteById(employeeId);
+  }
+
+  @Test
+  public void testDeleteEmployeeNotFound() {
+    long employeeId = 1;
+    when(employeeRepository.findById(employeeId)).thenReturn(Optional.empty());
+
+    assertThrows(ResourceNotFoundException.class, () -> employeeService.deleteEmployee(employeeId));
+  }
+
 }
