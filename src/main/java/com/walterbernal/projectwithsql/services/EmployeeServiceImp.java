@@ -9,22 +9,30 @@ import com.walterbernal.projectwithsql.models.Employee;
 import com.walterbernal.projectwithsql.repository.EmployeeRepository;
 
 // Implementation of the EmployeeService interface
+// And interaction with the EmployeeRepository (repository) that extends the Java Persistence API
 @Service
 public class EmployeeServiceImp implements EmployeeService {
   private EmployeeRepository employeeRepository;
   
+  // Constructor for EmployeeServiceImp
   public EmployeeServiceImp(EmployeeRepository employeeRepository) {
     super();
     this.employeeRepository = employeeRepository;
   }
 
+  // Service method to saveEmployee data
   @Override
   public Employee saveEmployee(Employee employee) {
+    // call of save() method extended from the Java Persistence API, to save the employee data
+    // return is never null
     return employeeRepository.save(employee);
   }
 
+  // Service method to retrieve all the Employee in a List
   @Override
   public List<Employee> getAllEmployees() {
+    // call of findAll() method extended from the Java Persistence API 
+    // to retrieve all the Employee as List of Employee
     return employeeRepository.findAll();
   }
 
@@ -34,7 +42,7 @@ public class EmployeeServiceImp implements EmployeeService {
     // if (foundEmployee.isPresent()) {
     //   return foundEmployee.get();
     // } else {
-      // throw new ResourceNotFoundException("Employee", "Id", id);
+    //   throw new ResourceNotFoundException("Employee", "Id", id);
     //   return null;
     // }
 
@@ -75,8 +83,7 @@ public class EmployeeServiceImp implements EmployeeService {
     // }
 
     employeeRepository.findById(id)
-      .orElseThrow(() -> new ResourceNotFoundException("Employee", "Id", id));
-    
+        .orElseThrow(() -> new ResourceNotFoundException("Employee", "Id", id));
     employeeRepository.deleteById(id);
   }
 }
