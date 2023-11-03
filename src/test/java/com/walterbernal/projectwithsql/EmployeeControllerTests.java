@@ -103,15 +103,23 @@ public class EmployeeControllerTests {
 
   @Test
   public void testDeleteEmployee() throws Exception {
+    // Define the ID of the employee to be deleted
     Long employeeId = 1L;
-
+    
+    // Mock the behavior of the employeeService to do nothing when
+    // deleteEmployee(employeeId) is called
     doNothing().when(employeeService).deleteEmployee(employeeId);
 
+    // Perform a DELETE request to the "/api/employees/{id}" endpoint, providing the
+    // employee ID and content type
     mockMvc.perform(MockMvcRequestBuilders
         .delete("/api/employees/{id}", employeeId)
         .contentType(MediaType.APPLICATION_JSON))
+        // Verify that the HTTP status code of the response is 200 (OK)
         .andExpect(status().isOk());
 
+    // Verify that the deleteEmployee(employeeId) method was called once in the
+    // employeeService.
     verify(employeeService, times(1)).deleteEmployee(employeeId);
   }
 }

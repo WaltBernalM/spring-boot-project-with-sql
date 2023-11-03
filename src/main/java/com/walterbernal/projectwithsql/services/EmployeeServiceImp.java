@@ -8,6 +8,7 @@ import com.walterbernal.projectwithsql.exceptions.ResourceNotFoundException;
 import com.walterbernal.projectwithsql.models.Employee;
 import com.walterbernal.projectwithsql.repository.EmployeeRepository;
 
+// Implementation of the EmployeeService interface
 @Service
 public class EmployeeServiceImp implements EmployeeService {
   private EmployeeRepository employeeRepository;

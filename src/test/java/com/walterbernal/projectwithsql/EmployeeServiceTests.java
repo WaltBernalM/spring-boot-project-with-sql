@@ -75,35 +75,50 @@ public class EmployeeServiceTests {
 
   @Test
   public void testGetEmployeeById() {
+    // Create a new employee instance
     Employee employee = new Employee();
-    long employeeId = 1;
+    
+    // Define the ID of the employee to be retrieved
+    long employeeId = 1L;
 
+    // Mock the behavior of the employeeRepository to return an Optional containing
+    // the employee when findById(employeeId) is called.
     when(employeeRepository.findById(employeeId)).thenReturn(Optional.of(employee));
+    
+    // Call the getEmployeeById(employeeId) method of the employeeService.
     Employee employeeFound = employeeService.getEmployeeById(employeeId);
 
+    // Assert that the retrieved employee is not null.
     assertNotNull(employeeFound);
+
+    // Assert that the retrieved employee matches the expected employee (the one
+    // provided by the mock).
     assertEquals(employee, employeeFound);
   }
 
   @Test
   public void testGetEmployeeByIdNotFound() {
-    long employeeId = 1;
+    // Define the ID of the employee to be retrieved
+    long employeeId = 1L;
 
+    // Mock the behavior of the employeeRepository to return an empty Optional 
+    // when findById(employeeId) is called
     when(employeeRepository.findById(employeeId)).thenReturn(Optional.empty());
 
+    // Assert that the employee was not found, confirming that throws a ResourceNotFoundException
     assertThrows(ResourceNotFoundException.class, () -> employeeService.getEmployeeById(employeeId));
-
   }
   
-    @Test
+  @Test
   public void testUpdateEmployee() {
-    long employeeId = 1; // Id of the employee
+    // Define the ID of the employee to be updated
+    long employeeId = 1; 
 
-    // Current employee 
+    // Define the current employee to be updated
     Employee currentEmployee = new Employee();
     currentEmployee.setFirstName("current");
 
-    // Update employee
+    // define the updated employee
     Employee updatedEmployee = new Employee();
     updatedEmployee.setFirstName("updated");
 
@@ -114,6 +129,7 @@ public class EmployeeServiceTests {
     // Return of Optional currentEmployee when the save method of the employeeRepository is called
     when(employeeRepository.save(currentEmployee)).thenReturn(currentEmployee);
 
+    // Retrieve the employee from the updateEmployee method to verify the result
     Employee result = employeeService.updatEmployee(updatedEmployee, employeeId);
 
     // assertion that the result is not null
@@ -128,11 +144,18 @@ public class EmployeeServiceTests {
   
   @Test
   public void testUpdateEmployeeNotFound() {
+    // Define the ID of the employee to be found
     long employeeId = 2;
+    
+    // Define the employee data to be updated
     Employee updatedEmployee = new Employee();
 
+    // Mock the behaivor of employeeRepository to return an empty optional
+    // when the findById method is called
     when(employeeRepository.findById(employeeId)).thenReturn(Optional.empty());
 
+    // Assert that the update method of the employeeRepository is called and returns
+    // a ResourceNotFoundException 
     assertThrows(ResourceNotFoundException.class, () -> employeeService.updatEmployee(updatedEmployee, employeeId));
   }
 
