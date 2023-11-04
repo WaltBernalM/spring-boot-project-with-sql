@@ -4,16 +4,20 @@ import jakarta.persistence.*;
 
 // Auto-generates methods (getters-setters)
 import lombok.Data;
+import lombok.Setter;
+import lombok.Getter;
 
 @Data
 @Entity
+@Getter
+@Setter
 @Table(name="employees")
 public class Employee {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
 
-  @Column(name="first_name", nullable = false)
+  @Column(name="first_name")
   private String firstName;
 
   @Column(name = "last_name")
@@ -34,37 +38,39 @@ public class Employee {
     this.email = email;
   }
 
-  public Long getId() {
-    return id;
-  }
+  // @ToString(includeFieldNames = true);
 
-  public void setId(Long id) {
-    this.id = id;
-  }
+  // public Long getId() {
+  //   return id;
+  // }
 
-  public String getfirstName() {
-    return firstName;
-  }
+  // public void setId(Long id) {
+  //   this.id = id;
+  // }
 
-  public void setFirstName(String firstName) {
-    this.firstName = firstName;
-  }
+  // public String getfirstName() {
+  //   return firstName;
+  // }
 
-  public String getLastName() {
-    return lastName;
-  }
+  // public void setFirstName(String firstName) {
+  //   this.firstName = firstName;
+  // }
+
+  // public String getLastName() {
+  //   return lastName;
+  // }
   
-  public void setLastName(String lastName) {
-    this.lastName = lastName;
-  }
+  // public void setLastName(String lastName) {
+  //   this.lastName = lastName;
+  // }
 
-  public String getEmail() {
-    return email;
-  }
+  // public String getEmail() {
+  //   return email;
+  // }
 
-  public void setEmail(String email) {
-    this.email = email;
-  }
+  // public void setEmail(String email) {
+  //   this.email = email;
+  // }
 
   @Override
   public String toString() {

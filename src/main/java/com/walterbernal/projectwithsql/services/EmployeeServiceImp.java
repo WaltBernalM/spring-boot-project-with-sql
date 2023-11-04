@@ -68,7 +68,7 @@ public class EmployeeServiceImp implements EmployeeService {
     Employee existingEmployee = employeeRepository.findById(id)
         .orElseThrow(() -> new ResourceNotFoundException("Employee", "Id", id));
 
-    existingEmployee.setFirstName(employee.getfirstName());
+    existingEmployee.setFirstName(employee.getFirstName());
     existingEmployee.setLastName(employee.getLastName());
     existingEmployee.setEmail(employee.getEmail());
 

@@ -138,7 +138,7 @@ public class EmployeeServiceTests {
     assertNotNull(result);
 
     // assertion that the update method of the employeeRepository is actully updating
-    assertEquals(updatedEmployee.getfirstName(), result.getfirstName());
+    assertEquals(updatedEmployee.getFirstName(), result.getFirstName());
 
     // verification that the save method of the employeeRepository is called 1 time
     verify(employeeRepository, times(1)).save(currentEmployee);
