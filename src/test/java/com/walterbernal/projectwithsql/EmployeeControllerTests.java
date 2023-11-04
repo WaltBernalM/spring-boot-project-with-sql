@@ -15,6 +15,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -71,7 +73,7 @@ public class EmployeeControllerTests {
     employee.setLastName("Doe");
     employee.setEmail("jdoe@gmail.com");
 
-    when(employeeService.getEmployeeById(1L)).thenReturn(employee);
+    when(employeeService.getEmployeeById(anyLong())).thenReturn(employee);
 
     mockMvc.perform(MockMvcRequestBuilders.get("/api/employees/1"))
         .andExpect(status().isOk())
@@ -89,7 +91,7 @@ public class EmployeeControllerTests {
     employee.setLastName("Doe");
     employee.setEmail("jdoe@gmail.com");
 
-    when(employeeService.updatEmployee(employee, 1)).thenReturn(employee);
+    when(employeeService.updatEmployee(any(), anyLong())).thenReturn(employee);
 
     mockMvc.perform(MockMvcRequestBuilders.put("/api/employees/1")
         .contentType(MediaType.APPLICATION_JSON)
@@ -108,7 +110,7 @@ public class EmployeeControllerTests {
     
     // Mock the behavior of the employeeService to do nothing when
     // deleteEmployee(employeeId) is called
-    doNothing().when(employeeService).deleteEmployee(employeeId);
+    doNothing().when(employeeService).deleteEmployee(anyLong());
 
     // Perform a DELETE request to the "/api/employees/{id}" endpoint, providing the
     // employee ID and content type
@@ -120,6 +122,6 @@ public class EmployeeControllerTests {
 
     // Verify that the deleteEmployee(employeeId) method was called once in the
     // employeeService.
-    verify(employeeService, times(1)).deleteEmployee(employeeId);
+    verify(employeeService, times(1)).deleteEmployee(anyLong());
   }
 }

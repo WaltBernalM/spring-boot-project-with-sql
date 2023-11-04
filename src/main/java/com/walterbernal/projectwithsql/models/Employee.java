@@ -1,6 +1,8 @@
 package com.walterbernal.projectwithsql.models;
 
 import jakarta.persistence.*;
+
+// Auto-generates methods (getters-setters)
 import lombok.Data;
 
 @Data

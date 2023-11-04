@@ -15,6 +15,7 @@ public class EmployeeServiceImp implements EmployeeService {
   private EmployeeRepository employeeRepository;
   
   // Constructor for EmployeeServiceImp
+  // Injects the dependency ...
   public EmployeeServiceImp(EmployeeRepository employeeRepository) {
     super();
     this.employeeRepository = employeeRepository;
@@ -61,12 +62,12 @@ public class EmployeeServiceImp implements EmployeeService {
     //   employeeRepository.save(existingEmployee);
     //   return existingEmployee;
     // } else {
-    //   return null;
+    //   return null; // Avoid to utilize ( can cause null pointer exception)
     // }
     
     Employee existingEmployee = employeeRepository.findById(id)
-      .orElseThrow(() -> new ResourceNotFoundException("Employee", "Id", id));
-    
+        .orElseThrow(() -> new ResourceNotFoundException("Employee", "Id", id));
+
     existingEmployee.setFirstName(employee.getfirstName());
     existingEmployee.setLastName(employee.getLastName());
     existingEmployee.setEmail(employee.getEmail());
