@@ -50,6 +50,12 @@
 			<version>1.18.22</version> <!-- Use the latest version -->
 			<scope>provided</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-api</artifactId>
+			<version>0.12.3</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -60,5 +66,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>

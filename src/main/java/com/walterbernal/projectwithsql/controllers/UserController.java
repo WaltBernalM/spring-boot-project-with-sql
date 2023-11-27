@@ -11,45 +11,45 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.walterbernal.projectwithsql.models.Employee;
-import com.walterbernal.projectwithsql.services.EmployeeService;
+import com.walterbernal.projectwithsql.models.User;
+import com.walterbernal.projectwithsql.services.UserService;
 
 import java.util.List;
 
 @RestController // Assigns the RestController Annotation
 @RequestMapping("/api/employees") // Englobes the /api/emmployees endpoint responses
-public class EmployeeController {
-  private EmployeeService employeeService;
+public class UserController {
+  private UserService employeeService;
 
    // Constructs an instance of the EmployeeController class with the provided
    // EmployeeService.
-  public EmployeeController(EmployeeService employeeService) {
+  public UserController(UserService employeeService) {
     super();
     this.employeeService = employeeService;
   }
 
   // Create and save a new employee by processing the provided request body.
   @PostMapping()
-  public ResponseEntity<Employee> saveEmployee(@RequestBody Employee employee) {
-    return new ResponseEntity<Employee>(employeeService.saveEmployee(employee), HttpStatus.CREATED);
+  public ResponseEntity<User> saveEmployee(@RequestBody User employee) {
+    return new ResponseEntity<User>(employeeService.saveEmployee(employee), HttpStatus.CREATED);
   }
 
   // Retrieves a List of all employees in the database
   @GetMapping()
-  public List<Employee> getAllEmployees() {
+  public List<User> getAllEmployees() {
     return employeeService.getAllEmployees();
   }
 
   // Retrieves an employee by its ID from the List of all employees in the database
   @GetMapping("{id}")
-  public ResponseEntity<Employee> getEmployeeById(@PathVariable("id") long employeeId) {
-    return new ResponseEntity<Employee>(employeeService.getEmployeeById(employeeId), HttpStatus.OK);
+  public ResponseEntity<User> getEmployeeById(@PathVariable("id") long employeeId) {
+    return new ResponseEntity<User>(employeeService.getEmployeeById(employeeId), HttpStatus.OK);
   }
 
   // Updates an employee by its ID from the List of all employees in the database
   @PutMapping("{id}")
-  public ResponseEntity<Employee> updateEmployee(@PathVariable("id") long employeeId, @RequestBody Employee employee) {
-    return new ResponseEntity<Employee>(employeeService.updatEmployee(employee, employeeId), HttpStatus.OK);
+  public ResponseEntity<User> updateEmployee(@PathVariable("id") long employeeId, @RequestBody User employee) {
+    return new ResponseEntity<User>(employeeService.updatEmployee(employee, employeeId), HttpStatus.OK);
   }
 
   // Deletes an employee by its ID from the List of all employees in the database

@@ -5,25 +5,25 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.walterbernal.projectwithsql.exceptions.ResourceNotFoundException;
-import com.walterbernal.projectwithsql.models.Employee;
-import com.walterbernal.projectwithsql.repository.EmployeeRepository;
+import com.walterbernal.projectwithsql.models.User;
+import com.walterbernal.projectwithsql.repository.UserRepository;
 
 // Implementation of the EmployeeService interface
 // And interaction with the EmployeeRepository (repository) that extends the Java Persistence API
 @Service
-public class EmployeeServiceImp implements EmployeeService {
-  private EmployeeRepository employeeRepository;
+public class UserServiceImp implements UserService {
+  private UserRepository employeeRepository;
   
   // Constructor for EmployeeServiceImp
   // Injects the dependency ...
-  public EmployeeServiceImp(EmployeeRepository employeeRepository) {
+  public UserServiceImp(UserRepository employeeRepository) {
     super();
     this.employeeRepository = employeeRepository;
   }
 
   // Service method to saveEmployee data
   @Override
-  public Employee saveEmployee(Employee employee) {
+  public User saveEmployee(User employee) {
     // call of save() method extended from the Java Persistence API, to save the employee data
     // return is never null
     return employeeRepository.save(employee);
@@ -31,14 +31,14 @@ public class EmployeeServiceImp implements EmployeeService {
 
   // Service method to retrieve all the Employee in a List
   @Override
-  public List<Employee> getAllEmployees() {
+  public List<User> getAllEmployees() {
     // call of findAll() method extended from the Java Persistence API 
     // to retrieve all the Employee as List of Employee
     return employeeRepository.findAll();
   }
 
   @Override
-  public Employee getEmployeeById(long id) {
+  public User getEmployeeById(long id) {
     // Optional<Employee> foundEmployee = employeeRepository.findById(id);
     // if (foundEmployee.isPresent()) {
     //   return foundEmployee.get();
@@ -52,7 +52,7 @@ public class EmployeeServiceImp implements EmployeeService {
   }
 
   @Override
-  public Employee updatEmployee(Employee employee, long id) {
+  public User updatEmployee(User employee, long id) {
     // Optional<Employee> foundEmployee = employeeRepository.findById(id);
     // if (foundEmployee.isPresent()) {
     //   Employee existingEmployee = foundEmployee.get();
@@ -65,7 +65,7 @@ public class EmployeeServiceImp implements EmployeeService {
     //   return null; // Avoid to utilize ( can cause null pointer exception)
     // }
     
-    Employee existingEmployee = employeeRepository.findById(id)
+    User existingEmployee = employeeRepository.findById(id)
         .orElseThrow(() -> new ResourceNotFoundException("Employee", "Id", id));
 
     existingEmployee.setFirstName(employee.getFirstName());

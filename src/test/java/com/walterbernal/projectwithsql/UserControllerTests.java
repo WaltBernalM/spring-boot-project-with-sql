@@ -1,8 +1,8 @@
 package com.walterbernal.projectwithsql;
 
-import com.walterbernal.projectwithsql.models.Employee;
-import com.walterbernal.projectwithsql.services.EmployeeService;
-import com.walterbernal.projectwithsql.controllers.EmployeeController;
+import com.walterbernal.projectwithsql.models.User;
+import com.walterbernal.projectwithsql.services.UserService;
+import com.walterbernal.projectwithsql.controllers.UserController;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,21 +23,21 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-public class EmployeeControllerTests {
-  private EmployeeController employeeController;
-  private EmployeeService employeeService;
+public class UserControllerTests {
+  private UserController employeeController;
+  private UserService employeeService;
   private MockMvc mockMvc;
 
   @BeforeEach
   void setup() {
-    employeeService = Mockito.mock(EmployeeService.class);
-    employeeController = new EmployeeController(employeeService);
+    employeeService = Mockito.mock(UserService.class);
+    employeeController = new UserController(employeeService);
     mockMvc = MockMvcBuilders.standaloneSetup(employeeController).build();
   }
 
   @Test
   public void testSaveEmployee() throws Exception {
-    Employee employee = new Employee();
+    User employee = new User();
     employee.setId(1L);
     employee.setFirstName("John");
     employee.setLastName("Doe");
@@ -56,7 +56,7 @@ public class EmployeeControllerTests {
   
   @Test
   public void testGetAllEmployees() throws Exception {
-    List<Employee> employees = Arrays.asList(new Employee(), new Employee());
+    List<User> employees = Arrays.asList(new User(), new User());
     when(employeeService.getAllEmployees()).thenReturn(employees);
 
     mockMvc.perform(MockMvcRequestBuilders.get("/api/employees"))
@@ -67,7 +67,7 @@ public class EmployeeControllerTests {
 
   @Test
   public void testGetEmployeeById() throws Exception {
-    Employee employee = new Employee();
+    User employee = new User();
     employee.setId(1L);
     employee.setFirstName("John");
     employee.setLastName("Doe");
@@ -85,7 +85,7 @@ public class EmployeeControllerTests {
 
   @Test
   public void testUpdateEmployee() throws Exception {
-    Employee employee = new Employee();
+    User employee = new User();
     employee.setId(1L);
     employee.setFirstName("John");
     employee.setLastName("Doe");

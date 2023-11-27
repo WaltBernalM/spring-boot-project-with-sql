@@ -18,17 +18,17 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import com.walterbernal.projectwithsql.exceptions.ResourceNotFoundException;
-import com.walterbernal.projectwithsql.models.Employee;
-import com.walterbernal.projectwithsql.repository.EmployeeRepository;
-import com.walterbernal.projectwithsql.services.EmployeeService;
-import com.walterbernal.projectwithsql.services.EmployeeServiceImp;
+import com.walterbernal.projectwithsql.models.User;
+import com.walterbernal.projectwithsql.repository.UserRepository;
+import com.walterbernal.projectwithsql.services.UserService;
+import com.walterbernal.projectwithsql.services.UserServiceImp;
 
-public class EmployeeServiceTests {
+public class UserServiceTests {
   // Declares the service to be tested
-  private EmployeeService employeeService;
+  private UserService employeeService;
 
   @Mock // delcare of mock EmployeeRepository
-  private EmployeeRepository employeeRepository;
+  private UserRepository employeeRepository;
 
   @BeforeEach // before each and every test this is done
   void setUp() {
@@ -38,20 +38,20 @@ public class EmployeeServiceTests {
 
     // Instantiatte and implementation of the EmployeeService 
     // with the use of the mock employeeRepository
-    employeeService = new EmployeeServiceImp(employeeRepository);
+    employeeService = new UserServiceImp(employeeRepository);
   }
 
   @Test
   public void testSaveEmployee() {
     // Instatiates a new employee
-    Employee employee = new Employee();
+    User employee = new User();
 
     // Configures the behavior of the mock employeeRepository when its called its save() method
     // and returns the employee instance previously created
     when(employeeRepository.save(any())).thenReturn(employee);
 
     // Invokes the saveemployee method of the mock employeeRepository and stores the returned employee object in savedEmployee instance
-    Employee savedEmployee = employeeService.saveEmployee(employee);
+    User savedEmployee = employeeService.saveEmployee(employee);
 
     // Assersts that the savedEmployee instance is not null
     assertNotNull(savedEmployee);
@@ -63,13 +63,13 @@ public class EmployeeServiceTests {
   @Test 
   public void testGetAllEmployees() {
     // Set of employee mock list of objects
-    List<Employee> employeeMockList = List.of(new Employee(), new Employee());
+    List<User> employeeMockList = List.of(new User(), new User());
 
     // When employeeRepository.findAll() is called, returns a list
     when(employeeRepository.findAll()).thenReturn(employeeMockList);
 
     // Calls the employeeSercvice getAllEmployees method and assigns it to employees List instance
-    List<Employee> employees = employeeService.getAllEmployees();
+    List<User> employees = employeeService.getAllEmployees();
 
     assertNotNull(employees);
     assertEquals(2, employees.size());
@@ -78,7 +78,7 @@ public class EmployeeServiceTests {
   @Test
   public void testGetEmployeeById() {
     // Create a new employee instance
-    Employee employee = new Employee();
+    User employee = new User();
     
     // Define the ID of the employee to be retrieved
     long employeeId = 1L;
@@ -88,7 +88,7 @@ public class EmployeeServiceTests {
     when(employeeRepository.findById(anyLong())).thenReturn(Optional.of(employee));
     
     // Call the getEmployeeById(employeeId) method of the employeeService.
-    Employee employeeFound = employeeService.getEmployeeById(employeeId);
+    User employeeFound = employeeService.getEmployeeById(employeeId);
 
     // Assert that the retrieved employee is not null.
     assertNotNull(employeeFound);
@@ -117,11 +117,11 @@ public class EmployeeServiceTests {
     long employeeId = 1; 
 
     // Define the current employee to be updated
-    Employee currentEmployee = new Employee();
+    User currentEmployee = new User();
     currentEmployee.setFirstName("current");
 
     // define the updated employee
-    Employee updatedEmployee = new Employee();
+    User updatedEmployee = new User();
     updatedEmployee.setFirstName("updated");
 
     // Put method is divided into two parts, find and save
@@ -132,7 +132,7 @@ public class EmployeeServiceTests {
     when(employeeRepository.save(any())).thenReturn(currentEmployee);
 
     // Retrieve the employee from the updateEmployee method to verify the result
-    Employee result = employeeService.updatEmployee(updatedEmployee, employeeId);
+    User result = employeeService.updatEmployee(updatedEmployee, employeeId);
 
     // assertion that the result is not null
     assertNotNull(result);
@@ -150,7 +150,7 @@ public class EmployeeServiceTests {
     long employeeId = 2;
     
     // Define the employee data to be updated
-    Employee updatedEmployee = new Employee();
+    User updatedEmployee = new User();
 
     // Mock the behaivor of employeeRepository to return an empty optional
     // when the findById method is called
@@ -164,7 +164,7 @@ public class EmployeeServiceTests {
   @Test
   public void testDeleteEmployee() {
     long employeeId = 1;
-    Employee employee = new Employee();
+    User employee = new User();
     when(employeeRepository.findById(anyLong())).thenReturn(Optional.of(employee));
     employeeService.deleteEmployee(employeeId);
     verify(employeeRepository, times(1)).deleteById(employeeId);
